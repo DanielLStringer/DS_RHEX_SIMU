@@ -7,9 +7,11 @@ and ignore the stuff called limbo and anything beneath this.
 Compile this code with:
 
 ./waf configure --prefix=$RESIBOTS_DIR
+
 ./waf
 
 Run this code with:
+
 ./build/DS_test 0 1 raised.skel
 
 (change the first number, ie.0, to change the test environment, up to 12)
