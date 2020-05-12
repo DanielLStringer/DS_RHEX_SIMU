@@ -1,0 +1,117 @@
+#!/usr/bin/env python
+# encoding: utf-8
+import sys
+sys.path.insert(0, sys.path[0]+'/waf_tools')
+
+VERSION = '0.0.1'
+APPNAME = 'rhex_dart'
+
+srcdir = '.'
+blddir = 'build'
+
+from waflib.Build import BuildContext
+import dart
+import boost
+import eigen
+import rhex_controller
+
+
+def options(opt):
+    opt.load('compiler_cxx')
+    opt.load('compiler_c')
+    opt.load('boost')
+    opt.load('eigen')
+    opt.load('dart')
+    opt.load('rhex_controller')
+
+
+def configure(conf):
+    conf.get_env()['BUILD_GRAPHIC'] = False
+
+    conf.load('compiler_cxx')
+    conf.load('compiler_c')
+    conf.load('boost')
+    conf.load('eigen')
+    conf.load('dart')
+    conf.load('rhex_controller')
+
+    conf.check_boost(lib='regex system filesystem', min_version='1.46')
+    conf.check_eigen()
+    conf.check_dart()
+    conf.check_rhex_controller()
+
+    if conf.env.CXX_NAME in ["icc", "icpc"]:
+        common_flags = "-Wall -std=c++11"
+        opt_flags = " -O3 -xHost  -march=native -mtune=native -unroll -fma -g"
+    elif conf.env.CXX_NAME in ["clang"]:
+        common_flags = "-Wall -std=c++11"
+        opt_flags = " -O3 -march=native -g"
+    else:
+        if int(conf.env['CC_VERSION'][0]+conf.env['CC_VERSION'][1]) < 47:
+            common_flags = "-Wall -std=c++0x"
+        else:
+            common_flags = "-Wall -std=c++11"
+        opt_flags = " -O3 -march=native -g"
+
+    all_flags = common_flags + opt_flags
+    conf.env['CXXFLAGS'] = conf.env['CXXFLAGS'] + all_flags.split(' ')
+    print conf.env['CXXFLAGS']
+
+
+def build(bld):
+
+    if bld.get_env()['BUILD_GRAPHIC'] == True:
+    
+#       bld.program(features = 'cxx',
+#                     install_path = None,
+#                     source = 'src/test.cpp',
+#                     includes = './include',
+#                     uselib = 'BOOST BOOST_SYSTEM BOOST_REGEX EIGEN RHEX_CONTROLLER DART_GRAPHIC',
+#                     defines = ['GRAPHIC'],
+#                     target = 'test')
+
+                      
+        bld.program(features = 'cxx',
+                      install_path = None,
+                      source = 'src/DS_test.cpp',
+                      includes = './include',
+                      uselib = 'BOOST BOOST_SYSTEM BOOST_REGEX EIGEN RHEX_CONTROLLER DART_GRAPHIC',
+                      defines = ['GRAPHIC'],
+                      target = 'DS_test')
+
+        bld.program(features = 'cxx',
+                      install_path = None,
+                      source = 'src/DS_fixed_test.cpp',
+                      includes = './include',
+                      uselib = 'BOOST BOOST_SYSTEM BOOST_REGEX EIGEN RHEX_CONTROLLER DART_GRAPHIC',
+                      defines = ['GRAPHIC'],
+                      target = 'DS_fixed_test')
+                      
+#       bld.program(features = 'cxx',
+#                      install_path = None,
+#                      source = 'src/DS_test.cpp',
+#                      includes = './include',
+#                      uselib = 'BOOST BOOST_SYSTEM BOOST_REGEX DART EIGEN RHEX_CONTROLLER',
+#                      target = 'DS_test_plain')
+                      
+#       bld.program(features = 'cxx',
+#                      install_path = None,
+#                      source = 'src/DS_fixed_test.cpp',
+#                      includes = './include',
+#                      uselib = 'BOOST BOOST_SYSTEM BOOST_REGEX DART EIGEN RHEX_CONTROLLER',
+#                      target = 'DS_fixed_test_plain')
+
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/rhex_dart_simu.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/rhex.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/rhex_control_cpg.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/rhex_control_hopf.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/rhex_control_buehler.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/pid_control.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/safety_measures.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/descriptors.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/visualizations.hpp')  
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/DS_rhex_dart_simu.hpp')     
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/DS_fixed_rhex_dart_simu.hpp') 
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/osc_control.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/hopf_osc.hpp')
+    bld.install_files('${PREFIX}/include/rhex_dart', 'include/rhex_dart/Adapt.hpp')
