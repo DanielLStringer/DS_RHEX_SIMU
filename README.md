@@ -10,10 +10,15 @@ Compile this code with:
 
 ./waf
 
-Run this code with:
+
+To run the code:
+For fixed version, just using tripod gait, no adaption, use:
+
+./build/DS_fixed_test 0 1 raised.skel
+
+For version that will adapt:
 
 ./build/DS_test 0 1 raised.skel
 
 (change the first number, ie.0, to change the test environment, up to 12)
 
-This archive, and this readme, is likely to be slightly altered in the coming week to make it easier/more clear 
