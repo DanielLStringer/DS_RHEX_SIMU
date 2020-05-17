@@ -4,7 +4,13 @@ Follow the instructions on https://github.com/AranBSmith/rhex-ite,
 but instead of rhex_simu, install this code (DS_rhex_simu), 
 and ignore the stuff called limbo and anything beneath this.
 
-Compile this code with:
+
+
+Move to etc./DS_rhex_simu/rhex_dart     
+
+{ where:  export RESIBOTS_DIR=/etc.  }
+
+Then compile this code with:
 
 ./waf configure --prefix=$RESIBOTS_DIR
 
