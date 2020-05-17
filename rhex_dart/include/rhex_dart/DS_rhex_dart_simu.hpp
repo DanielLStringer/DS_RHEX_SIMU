@@ -175,8 +175,8 @@ namespace rhex_dart {
 			double Pi= 3.1415926535;
 			
 			std::vector <double> phases(6,0);
-			double t_switch=20;
-			//double t_switch=0.2;
+			//double t_switch=20;
+			double t_switch=0.2;
 			
 			std::vector<double> Ep_phases(7,0);
 			
